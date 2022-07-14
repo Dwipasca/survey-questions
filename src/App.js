@@ -1,17 +1,23 @@
 import * as React from "react";
 
-import { Container, Typography, Box, Button } from "@mui/material";
+import { Routes, Route } from "react-router-dom";
+
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import SurveyList from "./pages/SurveyList";
+import SurveyCreate from "./pages/SurveyCreate";
+import SurveyEdit from "./pages/SurveyEdit";
 
 export default function App() {
   return (
-    <Container fixed>
-      <Box sx={{ my: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Create React App example
-        </Typography>
-        <Button variant="contained">Hello World</Button>
-        <Box sx={{ bgcolor: "#cfe8fc", height: "100vh" }} />
-      </Box>
-    </Container>
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<SurveyList />} />
+        <Route path="/create-survey" element={<SurveyCreate />} />
+        <Route path="/edit-survey/:id" element={<SurveyEdit />} />
+      </Routes>
+      <Footer />
+    </>
   );
 }
