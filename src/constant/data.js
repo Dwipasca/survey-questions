@@ -1,33 +1,110 @@
-import { getCurrentLongDate } from "../utils/dateFormat";
-export const datas = [
+export const questions = [
   {
     id: "1",
-    title: "Academic Libraries Survey 1",
-    date: getCurrentLongDate(),
+    question: "Question 1",
+    respondentOptions: [
+      {
+        optionsRule: "May Select",
+        optionsAnswer: "answer A",
+      },
+      {
+        optionsRule: "May Select",
+        optionsAnswer: "answer B",
+      },
+      {
+        optionsRule: "May Select",
+        optionsAnswer: "answer C",
+      },
+      {
+        optionsRule: "May Select",
+        optionsAnswer: "answer D",
+      },
+    ],
   },
   {
     id: "2",
-    title: "Academic Libraries Survey 2",
-    date: getCurrentLongDate(),
+    question: "Question 2",
+    respondentOptions: [
+      {
+        optionsRule: "May Select",
+        optionsAnswer: "answer A",
+      },
+      {
+        optionsRule: "May Select",
+        optionsAnswer: "answer B",
+      },
+      {
+        optionsRule: "May Select",
+        optionsAnswer: "answer C",
+      },
+    ],
   },
   {
     id: "3",
-    title: "Academic Libraries Survey 3",
-    date: getCurrentLongDate(),
+    question: "Question 3",
+    respondentOptions: [
+      {
+        optionsRule: "May Select",
+        optionsAnswer: "answer A",
+      },
+      {
+        optionsRule: "May Select",
+        optionsAnswer: "answer B",
+      },
+    ],
   },
   {
     id: "4",
-    title: "Academic Libraries Survey 4",
-    date: getCurrentLongDate(),
+    question: "Question 4",
+    respondentOptions: [
+      {
+        optionsRule: "May Select",
+        optionsAnswer: "answer A",
+      },
+      {
+        optionsRule: "May Select",
+        optionsAnswer: "answer B",
+      },
+    ],
   },
   {
     id: "5",
-    title: "Academic Libraries Survey 5",
-    date: getCurrentLongDate(),
+    question: "Question 5",
+    respondentOptions: [
+      {
+        optionsRule: "May Select",
+        optionsAnswer: "answer A",
+      },
+      {
+        optionsRule: "May Select",
+        optionsAnswer: "answer B",
+      },
+      {
+        optionsRule: "May Select",
+        optionsAnswer: "answer C",
+      },
+    ],
   },
   {
     id: "6",
-    title: "Academic Libraries Survey 6",
-    date: getCurrentLongDate(),
+    question: "Question 6",
+    respondentOptions: [
+      {
+        optionsRule: "May Select",
+        optionsAnswer: "answer A",
+      },
+      {
+        optionsRule: "May Select",
+        optionsAnswer: "answer B",
+      },
+      {
+        optionsRule: "May Select",
+        optionsAnswer: "answer C",
+      },
+      {
+        optionsRule: "May Select",
+        optionsAnswer: "answer D",
+      },
+    ],
   },
 ];
