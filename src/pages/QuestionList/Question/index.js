@@ -16,9 +16,8 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import ModalConfirmDelete from "../../../components/ModalConfirmDelete";
 
-function Survey({ data, index }) {
+function Question({ question, index }) {
   const [isOpen, setIsOpen] = React.useState(false);
-  const { id, title, date } = data;
 
   const handleOpenModal = () => {
     setIsOpen((prev) => !prev);
@@ -26,7 +25,7 @@ function Survey({ data, index }) {
 
   return (
     <>
-      <Draggable draggableId={data.id} index={index}>
+      <Draggable draggableId={question.id} index={index}>
         {(provided) => (
           <Card
             sx={{
@@ -43,15 +42,12 @@ function Survey({ data, index }) {
           >
             <CardContent>
               <Typography gutterBottom variant="h7" component="div">
-                {title}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {date}
+                {question.question}
               </Typography>
             </CardContent>
             <CardActions>
               <Link
-                to={`/edit-survey/${id}`}
+                to={`/edit-survey/${question.id}`}
                 style={{ textDecoration: "none", marginRight: 10 }}
               >
                 <Button
@@ -84,4 +80,4 @@ function Survey({ data, index }) {
   );
 }
 
-export default Survey;
+export default Question;

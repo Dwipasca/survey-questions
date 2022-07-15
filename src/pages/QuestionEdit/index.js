@@ -18,7 +18,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
-function SurveyCreate() {
+function QuestionEdit() {
   const [groupOptions] = useState([
     {
       id: 1,
@@ -44,7 +44,7 @@ function SurveyCreate() {
           }}
         >
           <Typography gutterBottom variant="h6" component="div">
-            Create Survey
+            Edit Question
           </Typography>
           <Link to="/" style={{ textDecoration: "none" }}>
             <Button
@@ -113,11 +113,11 @@ function SurveyCreate() {
               />
             </Stack>
           ))}
-          <Button variant="contained">Submit</Button>
+          <Button variant="contained">Save Changes</Button>
         </Stack>
       </Box>
     </Container>
   );
 }
 
-export default SurveyCreate;
+export default QuestionEdit;
