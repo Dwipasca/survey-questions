@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Container,
   Box,
@@ -9,16 +9,19 @@ import {
 } from "@mui/material";
 
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-
 import { Link } from "react-router-dom";
 
-import Survey from "./Survey";
-
+// icon
 import AddIcon from "@mui/icons-material/Add";
 
-import { datas } from "../../constant/data";
+// component
+import Question from "./Question";
 
-function SurveyList() {
+import { QuestionsContext } from "../../context/Questions";
+
+function QuestionList() {
+  const { listQuestion } = useContext(QuestionsContext);
+
   const onDragEnd = (result) => {
     const { source, destination } = result;
     if (!destination) return;
@@ -32,7 +35,7 @@ function SurveyList() {
 
     const srcI = source.index;
     const desI = destination.index;
-    datas.splice(desI, 0, datas.splice(srcI, 1)[0]);
+    listQuestion.splice(desI, 0, listQuestion.splice(srcI, 1)[0]);
   };
 
   return (
@@ -52,9 +55,9 @@ function SurveyList() {
           }}
         >
           <Typography gutterBottom variant="h6" component="div">
-            List Survey
+            List Question
           </Typography>
-          <Link to="/create-survey" style={{ textDecoration: "none" }}>
+          <Link to="/create-question" style={{ textDecoration: "none" }}>
             <Button
               variant="contained"
               size="small"
@@ -65,7 +68,7 @@ function SurveyList() {
                 },
               }}
             >
-              Create Survey
+              Create Question
             </Button>
           </Link>
         </Box>
@@ -75,8 +78,14 @@ function SurveyList() {
           <Droppable droppableId="listSurvey">
             {(provided) => (
               <Box {...provided.droppableProps} ref={provided.innerRef}>
-                {datas.map((data, idx) => {
-                  return <Survey data={data} key={data.id} index={idx} />;
+                {listQuestion.map((question, idx) => {
+                  return (
+                    <Question
+                      question={question}
+                      key={question.id}
+                      index={idx}
+                    />
+                  );
                 })}
                 {provided.placeholder}
               </Box>
@@ -107,4 +116,4 @@ function SurveyList() {
   );
 }
 
-export default SurveyList;
+export default QuestionList;
