@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   Container,
   Box,
@@ -11,16 +11,18 @@ import {
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { Link } from "react-router-dom";
 
+import { useSelector } from "react-redux";
+
 // icon
 import AddIcon from "@mui/icons-material/Add";
 
 // component
 import Question from "./Question";
 
-import { QuestionsContext } from "../../context/Questions";
-
 function QuestionList() {
-  const { listQuestion } = useContext(QuestionsContext);
+  const dataFromStore = useSelector((state) => state.questions);
+
+  const listQuestion = [...dataFromStore];
 
   const onDragEnd = (result) => {
     const { source, destination } = result;

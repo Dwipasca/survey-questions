@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 
 import {
   Container,
@@ -11,22 +11,24 @@ import {
 
 import { useNavigate } from "react-router-dom";
 
-import { v4 as uuidv4 } from "uuid";
+import { useDispatch } from "react-redux";
+import { nanoid } from "@reduxjs/toolkit";
 
-// context
-import { QuestionsContext } from "../../context/Questions";
+import { questionAdded } from "../../store/questionSlice";
+
+// import { v4 as uuidv4 } from "uuid";
 
 // components
 import PageHeader from "../../components/PageHeader";
 import RespondentOption from "./RespondentOption";
 
 function QuestionCreate() {
-  const { listQuestion, setListQuestion } = useContext(QuestionsContext);
+  const dispatch = useDispatch();
 
   const [question, setQuestion] = useState("");
   const [respondentOptions, setRespondentOptions] = useState([
     {
-      id: uuidv4(),
+      id: nanoid(),
       optionsRule: "May Select",
       optionsAnswer: "",
     },
@@ -47,7 +49,7 @@ function QuestionCreate() {
 
   const addNewRespondentOption = () => {
     const newRespondentOption = {
-      id: uuidv4(),
+      id: nanoid(),
       optionsRule: "May Select",
       optionsAnswer: "",
     };
@@ -64,14 +66,17 @@ function QuestionCreate() {
   const submitForm = (e) => {
     e.preventDefault();
 
-    const newQuestion = {
-      id: uuidv4(),
-      question,
-      respondentOptions,
-    };
+    if (question) {
+      const newQuestion = {
+        id: nanoid(),
+        question,
+        respondentOptions,
+      };
 
-    setListQuestion([...listQuestion, newQuestion]);
-    navigate("/", { replace: true });
+      dispatch(questionAdded(newQuestion));
+
+      navigate("/", { replace: true });
+    }
   };
 
   return (

@@ -12,9 +12,12 @@ import { Draggable } from "react-beautiful-dnd";
 
 import { Link } from "react-router-dom";
 
+// component
+import ModalConfirmDelete from "../../components/ModalConfirmDelete";
+
+// icons
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
-import ModalConfirmDelete from "../../../components/ModalConfirmDelete";
 
 function Question({ question, index }) {
   const [isOpen, setIsOpen] = React.useState(false);
