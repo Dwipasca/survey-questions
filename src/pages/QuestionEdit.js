@@ -15,11 +15,11 @@ import { nanoid } from "@reduxjs/toolkit";
 import { useSelector, useDispatch } from "react-redux";
 
 // slice
-import { questionUpdate } from "../../store/questionSlice";
+import { questionUpdate } from "../store/questionSlice";
 
 // components
-import PageHeader from "../../components/PageHeader";
-import ListRespondentOption from "./ListRespondentOption";
+import PageHeader from "../components/PageHeader";
+import ListRespondentOption from "../components/ListRespondentOption";
 
 function QuestionEdit() {
   const dispatch = useDispatch();

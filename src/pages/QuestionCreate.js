@@ -14,16 +14,17 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { nanoid } from "@reduxjs/toolkit";
 
-import { questionAdded } from "../../store/questionSlice";
+import { questionAdded } from "../store/questionSlice";
 
 // components
-import PageHeader from "../../components/PageHeader";
-import RespondentOption from "./RespondentOption";
+import PageHeader from "../components/PageHeader";
+import ListRespondentOption from "../components/ListRespondentOption";
 
 function QuestionCreate() {
   const dispatch = useDispatch();
+  let navigate = useNavigate();
 
-  const [question, setQuestion] = useState("");
+  const [title, setTitle] = useState("");
   const [respondentOptions, setRespondentOptions] = useState([
     {
       id: nanoid(),
@@ -31,11 +32,10 @@ function QuestionCreate() {
       optionsAnswer: "",
     },
   ]);
-  let navigate = useNavigate();
 
-  const handleChangeQuestion = (e) => {
+  const handleChangeTitle = (e) => {
     e.preventDefault();
-    setQuestion(e.target.value);
+    setTitle(e.target.value);
   };
 
   const handleChangeRespondentOption = (index, e) => {
@@ -45,7 +45,7 @@ function QuestionCreate() {
     setRespondentOptions(newArr);
   };
 
-  const addNewRespondentOption = () => {
+  const createNewRespondentOption = () => {
     const newRespondentOption = {
       id: nanoid(),
       optionsRule: "May Select",
@@ -55,7 +55,7 @@ function QuestionCreate() {
     setRespondentOptions([...respondentOptions, newRespondentOption]);
   };
 
-  const removeRespondentOption = (id) => {
+  const deleteRespondentOption = (id) => {
     const newArr = respondentOptions.filter((respon) => respon.id !== id);
 
     setRespondentOptions(newArr);
@@ -64,10 +64,10 @@ function QuestionCreate() {
   const submitForm = (e) => {
     e.preventDefault();
 
-    if (question) {
+    if (title) {
       const newQuestion = {
         id: nanoid(),
-        question,
+        question: title,
         respondentOptions,
       };
 
@@ -94,21 +94,18 @@ function QuestionCreate() {
               id="input-question"
               label="Question"
               variant="outlined"
-              value={question}
-              onChange={(e) => handleChangeQuestion(e)}
+              value={title}
+              onChange={(e) => handleChangeTitle(e)}
               fullWidth
             />
 
-            {respondentOptions.map((respondentOption, idx) => (
-              <RespondentOption
-                key={idx}
-                respondentOption={respondentOption}
-                addNewRespondentOption={addNewRespondentOption}
-                removeRespondentOption={removeRespondentOption}
-                handleChangeRespondentOption={handleChangeRespondentOption}
-                index={idx}
-              />
-            ))}
+            <ListRespondentOption
+              listRespondent={respondentOptions}
+              handleChange={handleChangeRespondentOption}
+              createNewRespondentOption={createNewRespondentOption}
+              deleteRespondentOption={deleteRespondentOption}
+            />
+
             <Button
               id="btn-submit"
               name="btn-submit"

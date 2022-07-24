@@ -1,6 +1,6 @@
 import React from "react";
 
-import RespondentOption from "../../components/RespondentOption";
+import RespondentOption from "./RespondentOption";
 
 function ListRespondentOption({
   listRespondent,
