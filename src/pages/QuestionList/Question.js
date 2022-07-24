@@ -50,7 +50,7 @@ function Question({ question, index }) {
             </CardContent>
             <CardActions>
               <Link
-                to={`/edit-survey/${question.id}`}
+                to={`/edit-question/${question.id}`}
                 style={{ textDecoration: "none", marginRight: 10 }}
               >
                 <Button

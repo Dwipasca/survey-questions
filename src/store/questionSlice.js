@@ -1,4 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  // current
+} from "@reduxjs/toolkit";
 
 import { questions } from "../constant/data";
 
@@ -9,9 +12,20 @@ export const questionsSlice = createSlice({
     questionAdded(state, action) {
       state.push(action.payload);
     },
+    questionUpdate(state, action) {
+      const id = action.payload.id;
+
+      const index = state.findIndex((question) => {
+        return question.id === id;
+      });
+
+      state[index] = action.payload;
+
+      // console.log(current(state));
+    },
   },
 });
 
-export const { questionAdded } = questionsSlice.actions;
+export const { questionAdded, questionUpdate } = questionsSlice.actions;
 
 export default questionsSlice.reducer;

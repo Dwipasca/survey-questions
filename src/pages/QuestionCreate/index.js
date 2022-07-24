@@ -16,8 +16,6 @@ import { nanoid } from "@reduxjs/toolkit";
 
 import { questionAdded } from "../../store/questionSlice";
 
-// import { v4 as uuidv4 } from "uuid";
-
 // components
 import PageHeader from "../../components/PageHeader";
 import RespondentOption from "./RespondentOption";

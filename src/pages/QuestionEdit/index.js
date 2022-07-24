@@ -1,122 +1,163 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import {
   Container,
   Box,
-  Typography,
   Divider,
   TextField,
   Button,
   Stack,
-  MenuItem,
-  IconButton,
+  Typography,
 } from "@mui/material";
 
-import { Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { nanoid } from "@reduxjs/toolkit";
+import { useSelector, useDispatch } from "react-redux";
 
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
+// slice
+import { questionUpdate } from "../../store/questionSlice";
+
+// components
+import PageHeader from "../../components/PageHeader";
+import ListRespondentOption from "./ListRespondentOption";
 
 function QuestionEdit() {
-  const [groupOptions] = useState([
-    {
-      id: 1,
-      rule: "May Select",
-      answer: "",
-    },
-  ]);
+  const dispatch = useDispatch();
+  let { id } = useParams();
+  let navigate = useNavigate();
+  const questions = useSelector((state) => state.questions);
+
+  const currentQuestionFromStore = questions.find(
+    (question) => question.id === id
+  );
+
+  const [title, setTitle] = useState("");
+  const [respondentOptions, setRespondentOptions] = useState([]);
+
+  useEffect(() => {
+    if (currentQuestionFromStore) {
+      setTitle(currentQuestionFromStore.question);
+      const cloneRespondentOptions = structuredClone(
+        currentQuestionFromStore.respondentOptions
+      );
+      // JSON.parse(JSON.stringify(currentQuestionFromStore.respondentOptions))
+      setRespondentOptions(cloneRespondentOptions);
+    }
+  }, [currentQuestionFromStore]);
+
+  const handleChangeTitle = (e) => {
+    e.preventDefault();
+
+    setTitle(e.target.value);
+  };
+
+  const handleChangeRespondentOption = (index, e) => {
+    const newArr = [...respondentOptions];
+    newArr[index][e.target.name] = e.target.value;
+
+    setRespondentOptions(newArr);
+  };
+
+  const createNewRespondentOption = () => {
+    const newRespondentOption = {
+      id: nanoid(),
+      optionsRule: "May Select",
+      optionsAnswer: "",
+    };
+
+    setRespondentOptions([...respondentOptions, newRespondentOption]);
+  };
+
+  const deleteRespondentOption = (id) => {
+    const newArr = respondentOptions.filter((respon) => respon.id !== id);
+
+    setRespondentOptions(newArr);
+  };
+
+  const compareBetween2Objects = (currentQuestion, newQuestion) => {
+    return JSON.stringify(currentQuestion) === JSON.stringify(newQuestion);
+  };
+
+  const handleSubmitForm = (e) => {
+    e.preventDefault();
+    const newQuestion = {
+      id: currentQuestionFromStore.id,
+      question: title,
+      respondentOptions,
+    };
+
+    const checkIf2ObjectsAreTheSame = compareBetween2Objects(
+      currentQuestionFromStore,
+      newQuestion
+    );
+
+    if (!checkIf2ObjectsAreTheSame) {
+      dispatch(questionUpdate(newQuestion));
+
+      navigate("/", { replace: true });
+    }
+  };
 
   return (
-    <Container maxWidth="sm">
-      <Box
-        sx={{
-          width: "full",
-          minHeight: "100vh",
-          py: 4,
-        }}
-      >
-        <Box
-          display="flex"
+    <>
+      {currentQuestionFromStore ? (
+        <Container maxWidth="sm">
+          <Box
+            sx={{
+              width: "full",
+              minHeight: "100vh",
+              py: 4,
+            }}
+          >
+            <PageHeader title="Edit Question" />
+            <Divider />
+            <form onSubmit={handleSubmitForm}>
+              <Stack spacing={3} sx={{ marginTop: 3 }}>
+                <TextField
+                  id="edit-question"
+                  label="Question"
+                  name="edit-question"
+                  variant="outlined"
+                  value={title}
+                  onChange={(e) => handleChangeTitle(e)}
+                  fullWidth
+                />
+
+                <ListRespondentOption
+                  listRespondent={respondentOptions}
+                  handleChange={handleChangeRespondentOption}
+                  createNewRespondentOption={createNewRespondentOption}
+                  deleteRespondentOption={deleteRespondentOption}
+                />
+
+                <Button
+                  id="btn-submit"
+                  name="btn-submit"
+                  type="submit"
+                  variant="contained"
+                >
+                  Save Changes
+                </Button>
+              </Stack>
+            </form>
+          </Box>
+        </Container>
+      ) : (
+        <Container
+          maxWidth="sm"
           sx={{
-            justifyContent: "space-between",
-            mb: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "50vh",
           }}
         >
-          <Typography gutterBottom variant="h6" component="div">
-            Edit Question
+          <Typography variant="h4" component="h4" align="center">
+            Question with id <strong> "{id}"</strong> is not exist
           </Typography>
-          <Link to="/" style={{ textDecoration: "none" }}>
-            <Button
-              variant="outlined"
-              color="primary"
-              startIcon={<ArrowBackIcon />}
-              size="small"
-            >
-              Back
-            </Button>
-          </Link>
-        </Box>
-        <Divider />
-        <Stack spacing={3} sx={{ marginTop: 3 }}>
-          <TextField
-            id="input-question"
-            label="Question"
-            variant="outlined"
-            fullWidth
-          />
-
-          {groupOptions.map((groupOption) => (
-            <Stack
-              sx={{
-                border: "2px solid #556cd6",
-                padding: 3,
-                borderStyle: "dashed",
-                borderRadius: 2,
-              }}
-              spacing={2}
-              key={groupOption.id}
-            >
-              <Box
-                display="flex"
-                sx={{
-                  justifyContent: "space-between",
-                }}
-              >
-                <Typography gutterBottom variant="subtitle1" component="p">
-                  Group Options
-                </Typography>
-                <Box>
-                  <IconButton aria-label="delete" color="error">
-                    <RemoveIcon />
-                  </IconButton>
-                  <IconButton aria-label="delete" color="primary">
-                    <AddIcon />
-                  </IconButton>
-                </Box>
-              </Box>
-              <TextField
-                id="select-rules"
-                label="Options Rule"
-                value="May Select"
-                select
-              >
-                <MenuItem value="May Select">May Select</MenuItem>
-                <MenuItem value="Must Select">Must Select</MenuItem>
-              </TextField>
-
-              <TextField
-                id="input-answer"
-                label="Answer"
-                variant="outlined"
-                fullWidth
-              />
-            </Stack>
-          ))}
-          <Button variant="contained">Save Changes</Button>
-        </Stack>
-      </Box>
-    </Container>
+        </Container>
+      )}
+    </>
   );
 }
 
