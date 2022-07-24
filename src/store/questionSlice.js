@@ -23,9 +23,14 @@ export const questionsSlice = createSlice({
 
       // console.log(current(state));
     },
+    questionDelete(state, action) {
+      const { id } = action.payload;
+      return state.filter((question) => question.id !== id);
+    },
   },
 });
 
-export const { questionAdded, questionUpdate } = questionsSlice.actions;
+export const { questionAdded, questionUpdate, questionDelete } =
+  questionsSlice.actions;
 
 export default questionsSlice.reducer;

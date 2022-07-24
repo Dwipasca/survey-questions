@@ -12,18 +12,28 @@ import { Draggable } from "react-beautiful-dnd";
 
 import { Link } from "react-router-dom";
 
+import { useDispatch } from "react-redux";
+
+//slice
+import { questionDelete } from "../../store/questionSlice";
+
 // component
-import ModalConfirmDelete from "../../components/ModalConfirmDelete";
+import ModalConfirmDelete from "./ModalConfirmDelete";
 
 // icons
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 
 function Question({ question, index }) {
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = React.useState(false);
 
   const handleOpenModal = () => {
     setIsOpen((prev) => !prev);
+  };
+
+  const deleteQuestion = (question) => {
+    dispatch(questionDelete(question));
   };
 
   return (
@@ -77,7 +87,12 @@ function Question({ question, index }) {
       </Draggable>
 
       {isOpen && (
-        <ModalConfirmDelete isOpen={isOpen} handleOpenModal={handleOpenModal} />
+        <ModalConfirmDelete
+          isOpen={isOpen}
+          handleOpenModal={handleOpenModal}
+          question={question}
+          deleteQuestion={deleteQuestion}
+        />
       )}
     </>
   );
