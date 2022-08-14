@@ -13,14 +13,20 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-function ModalConfirmDelete({ isOpen, handleOpenModal }) {
+function ModalConfirmDelete({
+  isOpen,
+  handleOpenModal,
+  question,
+  deleteQuestion,
+}) {
   return (
     <Dialog
       open={isOpen}
       TransitionComponent={Transition}
       keepMounted
       onClose={handleOpenModal}
-      aria-describedby="alert-dialog-slide-description"
+      aria-describedby="Modal Confirm Delete Question"
+      fullWidth
     >
       <DialogTitle
         sx={{
@@ -28,15 +34,14 @@ function ModalConfirmDelete({ isOpen, handleOpenModal }) {
         }}
       >{`Confirm Delete`}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-slide-description">
-          Are you sure want to delete this{" "}
-          <strong>Academic Libraries Survey</strong>?
+        <DialogContentText id="Text Confirm Delete Question">
+          Are you sure want to delete this <strong>{question.question}</strong>?
         </DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleOpenModal}>Cancel</Button>
         <Button
-          onClick={handleOpenModal}
+          onClick={() => deleteQuestion(question)}
           variant="contained"
           color="error"
           size="small"

@@ -12,21 +12,33 @@ import { Draggable } from "react-beautiful-dnd";
 
 import { Link } from "react-router-dom";
 
+import { useDispatch } from "react-redux";
+
+//slice
+import { questionDelete } from "../../store/questionSlice";
+
+// component
+import ModalConfirmDelete from "./ModalConfirmDelete";
+
+// icons
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
-import ModalConfirmDelete from "../../../components/ModalConfirmDelete";
 
-function Survey({ data, index }) {
+function Question({ question, index }) {
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = React.useState(false);
-  const { id, title, date } = data;
 
   const handleOpenModal = () => {
     setIsOpen((prev) => !prev);
   };
 
+  const deleteQuestion = (question) => {
+    dispatch(questionDelete(question));
+  };
+
   return (
     <>
-      <Draggable draggableId={data.id} index={index}>
+      <Draggable draggableId={question.id} index={index}>
         {(provided) => (
           <Card
             sx={{
@@ -43,15 +55,12 @@ function Survey({ data, index }) {
           >
             <CardContent>
               <Typography gutterBottom variant="h7" component="div">
-                {title}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {date}
+                {question.question}
               </Typography>
             </CardContent>
             <CardActions>
               <Link
-                to={`/edit-survey/${id}`}
+                to={`/edit-question/${question.id}`}
                 style={{ textDecoration: "none", marginRight: 10 }}
               >
                 <Button
@@ -78,10 +87,15 @@ function Survey({ data, index }) {
       </Draggable>
 
       {isOpen && (
-        <ModalConfirmDelete isOpen={isOpen} handleOpenModal={handleOpenModal} />
+        <ModalConfirmDelete
+          isOpen={isOpen}
+          handleOpenModal={handleOpenModal}
+          question={question}
+          deleteQuestion={deleteQuestion}
+        />
       )}
     </>
   );
 }
 
-export default Survey;
+export default Question;
